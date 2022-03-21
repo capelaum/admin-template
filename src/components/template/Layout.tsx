@@ -11,10 +11,19 @@ interface LayoutProps {
 
 export function Layout({ title, subtitle, children }: LayoutProps) {
   return (
-    <div>
+    <div className="flex h-screen w-screen ">
       <Sidebar />
-      <Header title={title} subtitle={subtitle} />
-      <Content>{children}</Content>
+      <div
+        className="
+          flex flex-col flex-grow
+          bg-gray-300
+          p-7
+          dark:bg-gray-800
+        "
+      >
+        <Header title={title} subtitle={subtitle} />
+        <Content>{children}</Content>
+      </div>
     </div>
   )
 }
