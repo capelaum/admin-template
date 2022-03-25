@@ -7,10 +7,17 @@ interface ButtonProps {
 }
 
 export function Button({ submit, children, variant }: ButtonProps) {
+  const googleButtonStyles = `
+    from-gray-100 to-gray-100 text-indigo-700
+    border border-indigo-400
+    hover:bg-gray-200 hover:text-indigo-900
+    hover:to-purple-600 hover:from-blue-700 hover:text-gray-50
+  `
+
   const gradient =
     variant === 'blue'
-      ? 'bg-gradient-to-br hover:bg-gradient-to-bl from-purple-600 to-blue-700 text-white'
-      : 'from-gray-100 to-gray-100 text-indigo-700 border border-indigo-400 hover:bg-gray-200 hover:text-indigo-900 hover:border-gray-400'
+      ? 'from-purple-600 to-blue-700 text-white'
+      : googleButtonStyles
 
   return (
     <button
@@ -18,6 +25,7 @@ export function Button({ submit, children, variant }: ButtonProps) {
       className={`
           w-full
           flex items-center justify-center
+          bg-gradient-to-br hover:bg-gradient-to-bl
           focus:ring-2 focus:outline-none focus:ring-blue-300
           dark:focus:ring-blue-800
           font-medium rounded-lg
