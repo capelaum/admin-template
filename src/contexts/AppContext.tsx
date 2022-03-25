@@ -1,18 +1,27 @@
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 interface AppProviderProps {
   children: ReactNode
 }
 
+type Theme = 'dark' | 'light'
+
 interface AppContextData {
-  name: string
+  theme: Theme
+  toggleTheme: () => void
 }
 
 const AppContext = createContext<AppContextData>({} as AppContextData)
 
 export function AppProvider({ children }: AppProviderProps) {
+  const [theme, setTheme] = useState<Theme>('dark')
+
+  function toggleTheme() {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
+
   return (
-    <AppContext.Provider value={{ name: 'My Name is Luis' }}>
+    <AppContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </AppContext.Provider>
   )

@@ -33,7 +33,7 @@ export function Sidebar() {
           icon={IconLogout}
           onClick={() => console.log('Logout')}
           className="
-          text-red-600 hover:bg-red-400 hover:text-white
+          text-red-600 hover:bg-red-500 hover:text-white
           dark:text-red-500 dark:hover:bg-red-500 dark:hover:text-white
           "
         />

@@ -19,15 +19,16 @@ export function Item({
   return (
     <li
       className={`
-      hover:bg-gray-100 text-gray-600
+      hover:bg-gray-100 text-gray-700
       dark:text-gray-400 dark:hover:bg-gray-800
-      transition-all duration-250
-      ${className}
+        transition-all duration-250
       `}
       onClick={onClick}
     >
       <Link href={url ?? '#'} passHref>
-        <a className="flex flex-col justify-center items-center h-20 w-20">
+        <a
+          className={`flex flex-col justify-center items-center h-20 w-20 ${className} transition-all duration-250`}
+        >
           {icon}
           <span className="text-xs font-light pt-2">{text}</span>
         </a>

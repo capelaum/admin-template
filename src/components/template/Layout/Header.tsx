@@ -1,4 +1,5 @@
 import { Title } from './Title'
+import { ToggleThemeButton } from './ToggleThemeButton'
 
 interface HeaderProps {
   title: string
@@ -7,8 +8,9 @@ interface HeaderProps {
 
 export function Header({ title, subtitle }: HeaderProps) {
   return (
-    <div>
+    <div className="flex justify-between items-start  ">
       <Title title={title} subtitle={subtitle} />
+      <ToggleThemeButton />
     </div>
   )
 }

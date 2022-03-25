@@ -1,3 +1,4 @@
+import { useApp } from 'contexts/AppContext'
 import { ReactNode } from 'react'
 import { Sidebar } from '../Sidebar'
 import { Content } from './Content'
@@ -10,8 +11,10 @@ interface LayoutProps {
 }
 
 export function Layout({ title, subtitle, children }: LayoutProps) {
+  const { theme } = useApp()
+
   return (
-    <div className="dark flex h-screen w-screen ">
+    <div className={`${theme} flex h-screen w-screen `}>
       <Sidebar />
       <div
         className="
