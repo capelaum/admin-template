@@ -20,7 +20,7 @@ export function Item({
     <li
       className={`
       hover:bg-gray-100 text-gray-700
-      dark:text-gray-400 dark:hover:bg-gray-800
+      dark:text-gray-300 dark:hover:bg-gray-700
         transition-all duration-250
       `}
       onClick={onClick}

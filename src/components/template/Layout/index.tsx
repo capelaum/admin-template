@@ -20,7 +20,7 @@ export function Layout({ title, subtitle, children }: LayoutProps) {
         className="
           flex flex-col flex-grow
           bg-gray-300
-          p-7
+          p-4 sm:p-7
           dark:bg-gray-800
         "
       >
