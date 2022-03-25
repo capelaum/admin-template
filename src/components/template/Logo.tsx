@@ -7,7 +7,13 @@ interface LogoProps {
 
 export function Logo({ alt, src }: LogoProps) {
   return (
-    <div>
+    <div
+      className="
+        w-full h-20
+        flex flex-col items-center justify-center
+        px-2
+      "
+    >
       <Image src={src} alt={alt} width={50} height={50} />
     </div>
   )

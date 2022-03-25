@@ -18,13 +18,18 @@ export function SidebarItem({
 }: SidebarItemProps) {
   return (
     <li
-      className={`hover:bg-gray-100 text-gray-600 ${className}`}
+      className={`
+      hover:bg-gray-100 text-gray-600
+      dark:text-gray-400 dark:hover:bg-gray-800
+      transition-all duration-250
+      ${className}
+      `}
       onClick={onClick}
     >
       <Link href={url ?? '#'} passHref>
         <a className="flex flex-col justify-center items-center h-20 w-20">
           {icon}
-          <span className="text-xs font-light">{text}</span>
+          <span className="text-xs font-light pt-2">{text}</span>
         </a>
       </Link>
     </li>

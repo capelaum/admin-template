@@ -1,24 +1,23 @@
-import capelaum_logo from '@public/capelaum_logo.png'
 import {
   IconHome,
   IconLogout,
   IconNotifications,
   IconSettings,
-} from 'components/icons'
+} from 'components/Assets/icons'
+import { images } from 'components/Assets/images'
 import { Logo } from './Logo'
 import { SidebarItem } from './SidebarItem'
 
 export function Sidebar() {
   return (
-    <aside className="flex flex-col">
-      <div
-        className="
-          w-20 h-20
-          flex flex-col items-center justify-center
-        "
-      >
-        <Logo src={capelaum_logo} alt="Logo de Luís Vinicius Capelletto" />
-      </div>
+    <aside
+      className="flex flex-col
+
+      bg-gray-200 text-gray-700
+      dark:bg-gray-900
+      "
+    >
+      <Logo src={images.capelaum_logo} alt="Logo de Luís Vinicius Capelletto" />
       <ul className="flex-grow">
         <SidebarItem url="/" text="Home" icon={IconHome} />
         <SidebarItem url="/settings" text="Settings" icon={IconSettings} />
@@ -33,7 +32,10 @@ export function Sidebar() {
           text="Sair"
           icon={IconLogout}
           onClick={() => console.log('Logout')}
-          className="text-red-600 hover:bg-red-400 hover:text-white transition-all duration-250"
+          className="
+          text-red-600 hover:bg-red-400 hover:text-white
+          dark:text-red-500 dark:hover:bg-red-500 dark:hover:text-white
+          "
         />
       </ul>
     </aside>

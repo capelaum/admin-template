@@ -11,7 +11,7 @@ interface LayoutProps {
 
 export function Layout({ title, subtitle, children }: LayoutProps) {
   return (
-    <div className="flex h-screen w-screen ">
+    <div className="dark flex h-screen w-screen ">
       <Sidebar />
       <div
         className="
