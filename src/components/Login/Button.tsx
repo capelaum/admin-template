@@ -10,7 +10,7 @@ export function Button({ submit, children, variant }: ButtonProps) {
   const gradient =
     variant === 'blue'
       ? 'bg-gradient-to-br hover:bg-gradient-to-bl from-purple-600 to-blue-700 text-white'
-      : 'from-gray-100 to-gray-100 text-gray-700 border border-indigo-400 hover:bg-gray-200 hover:text-gray-700 hover:border-gray-400'
+      : 'from-gray-100 to-gray-100 text-indigo-700 border border-indigo-400 hover:bg-gray-200 hover:text-indigo-900 hover:border-gray-400'
 
   return (
     <button
