@@ -9,7 +9,7 @@ interface SidebarItemProps {
   className?: string
 }
 
-export function SidebarItem({
+export function Item({
   text,
   icon,
   url,

@@ -5,8 +5,8 @@ import {
   IconSettings,
 } from 'components/Assets/icons'
 import { images } from 'components/Assets/images'
+import { Item } from './Item'
 import { Logo } from './Logo'
-import { SidebarItem } from './SidebarItem'
 
 export function Sidebar() {
   return (
@@ -19,16 +19,16 @@ export function Sidebar() {
     >
       <Logo src={images.capelaum_logo} alt="Logo de Luís Vinicius Capelletto" />
       <ul className="flex-grow">
-        <SidebarItem url="/" text="Home" icon={IconHome} />
-        <SidebarItem url="/settings" text="Settings" icon={IconSettings} />
-        <SidebarItem
+        <Item url="/" text="Home" icon={IconHome} />
+        <Item url="/settings" text="Settings" icon={IconSettings} />
+        <Item
           url="/notifications"
           text="Notifications"
           icon={IconNotifications}
         />
       </ul>
       <ul className="">
-        <SidebarItem
+        <Item
           text="Sair"
           icon={IconLogout}
           onClick={() => console.log('Logout')}
