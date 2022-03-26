@@ -20,17 +20,24 @@ export default function Login() {
   }
 
   return (
-    <div className="h-screen w-full grid place-items-center bg-gradient-to-br from-purple-600 to-blue-500">
+    <div
+      className="
+      h-screen w-full flex items-center justify-center px-4
+      bg-[url('https://source.unsplash.com/random')] bg-no-repeat bg-cover bg-center
+    "
+    >
+      <div className="absolute top-0 right-0 bottom-0 left-0 bg-indigo-500 bg-opacity-50"></div>
       <div
         className="
-        w-64 sm:w-1/2 sm:max-w-lg flex flex-col gap-4 sm:gap-6
-        p-5 mx-2
+        w-full sm:max-w-lg flex flex-col gap-4 sm:gap-6
+        p-5 mx-8
         rounded-2xl
-        bg-gray-100
+        bg-white
         box-shadow-xl
+        z-10
       "
       >
-        <h1 className="text-md sm:text-2xl font-bold mb-2 sm:mb-5 text-indigo-700 text-center">
+        <h1 className="text-lg xs:text-2xl font-bold my-5 text-indigo-700 text-center">
           {mode === 'login' ? 'Entre com a sua conta' : 'Faça seu Cadastro'}
         </h1>
 
@@ -59,9 +66,11 @@ export default function Login() {
             {mode === 'login' ? 'Entrar' : 'Cadastrar'}
           </Button>
 
-          <Button submit={submit} variant="red">
+          <Button submit={submit} variant="google">
             <Image src={images.google_icon} alt="Google Icon" />
-            <span className="ml-2 sm:ml-4">Entrar com Google</span>
+            <span className="ml-2 sm:ml-4 transition-all duration-300">
+              Entrar com Google
+            </span>
           </Button>
         </div>
       </div>

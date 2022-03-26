@@ -8,7 +8,7 @@ interface ButtonProps {
 
 export function Button({ submit, children, variant }: ButtonProps) {
   const googleButtonStyles = `
-    from-gray-100 to-gray-100 text-indigo-700
+    bg-white text-indigo-700
     border border-indigo-400
     hover:bg-gray-200 hover:text-indigo-900
     hover:to-purple-600 hover:from-blue-700 hover:text-gray-50
