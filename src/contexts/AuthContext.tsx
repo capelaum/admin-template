@@ -11,7 +11,7 @@ interface AuthProviderProps {
 }
 
 interface AuthContextData {
-  user: User
+  user: User | null
   sigInWithGoogle: () => Promise<void>
   signOutWithGoogle: () => Promise<void>
 }
@@ -19,7 +19,7 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User>({} as User)
+  const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
 
   const googleProvider = new GoogleAuthProvider()
@@ -27,8 +27,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function sigInWithGoogle() {
     try {
-      const result = await signInWithPopup(auth, googleProvider)
-      const user = await getUserFromFirebase(result)
+      const userCredential = await signInWithPopup(auth, googleProvider)
+      const user = await getUserFromFirebase(userCredential)
       console.log('🚀 ~ user', user)
 
       if (!user) {
@@ -36,15 +36,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       setUser(user)
-      showToast(`Welcome ${user.name}!`, 'top-right')
       router.push('/')
+      showToast(`Welcome ${user.name}!`, 'top-right', '✅')
     } catch (err) {
       console.error(err)
       showToastError('Oops! Something went wrong.')
     }
   }
 
-  async function signOutWithGoogle() {}
+  async function signOutWithGoogle() {
+    if (user) {
+      const { name } = user
+      showToast(`Bye ${name}`, 'top-right', '👋')
+    }
+    setUser(null)
+    await auth.signOut()
+    router.push('/login')
+  }
 
   return (
     <AuthContext.Provider value={{ user, sigInWithGoogle, signOutWithGoogle }}>

@@ -2,13 +2,16 @@ import {
   IconHome,
   IconLogout,
   IconNotifications,
-  IconSettings,
+  IconSettings
 } from 'components/Assets/icons'
 import { images } from 'components/Assets/images'
+import { useAuth } from 'contexts/AuthContext'
 import { Item } from './Item'
 import { Logo } from './Logo'
 
 export function Sidebar() {
+  const { signOutWithGoogle } = useAuth()
+
   return (
     <aside
       className="flex flex-col
@@ -31,7 +34,7 @@ export function Sidebar() {
         <Item
           text="Sair"
           icon={IconLogout}
-          onClick={() => console.log('Logout')}
+          onClick={signOutWithGoogle}
           className="
           text-red-600 hover:bg-red-500 hover:text-white
           dark:text-red-500 dark:hover:bg-red-500 dark:hover:text-white

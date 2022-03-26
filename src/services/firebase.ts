@@ -10,9 +10,5 @@ const firebaseConfig = {
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 }
-console.log(
-  '🚀 ~ process.env.NEXT_PUBLIC_FIREBASE_API_KEY',
-  process.env.NEXT_PUBLIC_FIREBASE_API_KEY
-)
 
 export const firebaseApp = initializeApp(firebaseConfig)

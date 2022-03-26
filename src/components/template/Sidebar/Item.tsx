@@ -14,7 +14,7 @@ export function Item({
   icon,
   url,
   onClick,
-  className,
+  className
 }: SidebarItemProps) {
   return (
     <li

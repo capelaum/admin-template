@@ -3,6 +3,6 @@ export interface User {
   email: string | null
   name: string | null
   token: string
-  authProvider: string
+  provider: string | null
   photoURL: string | null
 }

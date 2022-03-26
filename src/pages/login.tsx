@@ -9,7 +9,6 @@ export default function Login() {
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState<string | null>(null)
 
   const { sigInWithGoogle } = useAuth()
 
