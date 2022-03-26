@@ -1,6 +1,7 @@
 import { images } from 'components/Assets/images'
 import { Button } from 'components/Login/Button'
 import { Input } from 'components/Login/Input'
+import { useAuth } from 'contexts/AuthContext'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -9,6 +10,8 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+
+  const { sigInWithGoogle } = useAuth()
 
   function submit() {
     if (mode === 'login') {
@@ -78,7 +81,7 @@ export default function Login() {
             {mode === 'login' ? 'Login' : 'Register'}
           </Button>
 
-          <Button submit={submit} variant="google">
+          <Button submit={sigInWithGoogle} variant="google">
             <Image src={images.google_icon} alt="Google Icon" />
             <span className="ml-2 sm:ml-4 transition-all duration-300">
               {mode === 'login' ? 'Login with Google' : 'Register with Google'}
