@@ -19,28 +19,15 @@ export default function Login() {
     }
   }
 
-  function renderRegister() {
-    if (mode === 'login') {
-      return (
-        <button
-          onClick={() => setMode('register')}
-          className="text-indigo-700 hover:underline hover:decoration-solid mt-2"
-        >
-          Create new account
-        </button>
-      )
-    }
-
-    if (mode === 'register') {
-      return (
-        <button
-          onClick={() => setMode('login')}
-          className="text-indigo-700 hover:underline hover:decoration-solid mt-2"
-        >
-          Login to your account
-        </button>
-      )
-    }
+  function renderLoginOrRegisterOption() {
+    return (
+      <button
+        onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+        className="text-indigo-700 hover:underline hover:decoration-solid mt-2"
+      >
+        {mode === 'login' ? 'Create new account' : 'Login with your account'}
+      </button>
+    )
   }
 
   return (
@@ -97,7 +84,7 @@ export default function Login() {
             </span>
           </Button>
 
-          {renderRegister()}
+          {renderLoginOrRegisterOption()}
         </div>
       </div>
     </div>
