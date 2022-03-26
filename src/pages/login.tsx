@@ -19,6 +19,30 @@ export default function Login() {
     }
   }
 
+  function renderRegister() {
+    if (mode === 'login') {
+      return (
+        <button
+          onClick={() => setMode('register')}
+          className="text-indigo-700 hover:underline hover:decoration-solid mt-2"
+        >
+          Create new account
+        </button>
+      )
+    }
+
+    if (mode === 'register') {
+      return (
+        <button
+          onClick={() => setMode('login')}
+          className="text-indigo-700 hover:underline hover:decoration-solid mt-2"
+        >
+          Login to your account
+        </button>
+      )
+    }
+  }
+
   return (
     <div
       className="
@@ -38,7 +62,7 @@ export default function Login() {
       "
       >
         <h1 className="text-lg xs:text-2xl font-bold my-5 text-indigo-700 text-center">
-          {mode === 'login' ? 'Entre com a sua conta' : 'Faça seu Cadastro'}
+          {mode === 'login' ? 'Login with your account' : 'Create new account'}
         </h1>
 
         <Input
@@ -61,17 +85,19 @@ export default function Login() {
           required
         />
 
-        <div className="flex flex-col items-center w-full mt-4">
+        <div className="flex flex-col items-center w-full my-4">
           <Button submit={submit} variant="blue">
-            {mode === 'login' ? 'Entrar' : 'Cadastrar'}
+            {mode === 'login' ? 'Login' : 'Register'}
           </Button>
 
           <Button submit={submit} variant="google">
             <Image src={images.google_icon} alt="Google Icon" />
             <span className="ml-2 sm:ml-4 transition-all duration-300">
-              Entrar com Google
+              {mode === 'login' ? 'Login with Google' : 'Register with Google'}
             </span>
           </Button>
+
+          {renderRegister()}
         </div>
       </div>
     </div>

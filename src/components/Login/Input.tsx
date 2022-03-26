@@ -31,7 +31,7 @@ export function Input({
         required={required}
         className="
           px-4 py-3 rounded-lg
-          bg-gray-200 mt-2
+          bg-gray-200 text-gray-700
           text-sm sm:text-lg
           border focus:border-indigo-400 focus:outline-none focus:bg-white
         "
