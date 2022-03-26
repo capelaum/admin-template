@@ -6,7 +6,7 @@ export const showToast = (
   position: ToastPosition = 'top-right',
   icon?: ReactNode
 ) => {
-  toast.success(message, {
+  toast(message, {
     position,
     icon,
   })

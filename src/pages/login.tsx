@@ -3,7 +3,6 @@ import { Button } from 'components/Login/Button'
 import { Input } from 'components/Login/Input'
 import Image from 'next/image'
 import { useState } from 'react'
-import { showToastError } from 'utils/toasts'
 
 export default function Login() {
   const [mode, setMode] = useState<'login' | 'register'>('login')
@@ -14,12 +13,10 @@ export default function Login() {
   function submit() {
     if (mode === 'login') {
       console.log('login')
-      showToastError('Oops! Something went wrong in login.')
     }
 
     if (mode === 'register') {
       console.log('register')
-      showToastError('Oops! Something went wrong in register.')
     }
   }
 
