@@ -1,8 +1,8 @@
 export interface User {
   uid: string
-  email: string | null
-  name: string | null
+  email: string | null | undefined
+  name: string | null | undefined
   token: string
-  provider: string | null
-  photoURL: string | null
+  provider: string | null | undefined
+  photoURL: string | null | undefined
 }

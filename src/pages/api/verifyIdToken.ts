@@ -9,7 +9,7 @@ export default async function handler(
   const { userToken } = req.body
 
   if (!userToken)
-    return res.status(401).json({ error: 'No user token id found' })
+    return res.status(401).json({ error: 'No user ID token found' })
 
   try {
     const decodedToken = await adminAuth.verifyIdToken(userToken)

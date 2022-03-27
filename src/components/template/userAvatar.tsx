@@ -5,7 +5,6 @@ import Link from 'next/link'
 
 export function UserAvatar() {
   const { user } = useAuth()
-  console.log('🚀 ~ user', user)
 
   const photoURL = user?.photoURL ?? images.avatarDefault
 

@@ -1,11 +1,19 @@
+import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { User } from 'models/User'
 import { useRouter } from 'next/router'
 import { destroyCookie, parseCookies, setCookie } from 'nookies'
-import { createContext, ReactNode, useContext, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import { toast } from 'react-toastify'
 import { auth } from 'services/firebase'
-import { getUserFromFirebase } from 'services/users'
+import { getDecodedToken, getUserFromFirebase } from 'services/users'
 import { showToastError } from 'utils/toasts'
 
 interface AuthProviderProps {
@@ -23,6 +31,37 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
+
+  const setUserByCookies = useCallback(async () => {
+    const { userToken } = parseCookies()
+
+    if (!userToken) router.push('/login')
+
+    const decodedToken: DecodedIdToken | null = await getDecodedToken(userToken)
+
+    console.log('🚀 ~ decodedToken', decodedToken)
+
+    if (!decodedToken) {
+      router.push('/login')
+    }
+
+    if (decodedToken) {
+      const { uid, name, email, picture, sign_in_provider } = decodedToken
+
+      setUser({
+        uid,
+        name,
+        email,
+        token: userToken,
+        photoURL: picture,
+        provider: sign_in_provider
+      })
+    }
+  }, [router])
+
+  useEffect(() => {
+    setUserByCookies()
+  }, [setUserByCookies])
 
   async function sigInWithGoogle() {
     try {
@@ -59,7 +98,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     destroyCookie(null, 'userToken')
-    const cookies = parseCookies()
 
     setUser(null)
 
