@@ -29,7 +29,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const googleProvider = new GoogleAuthProvider()
       const userCredential = await signInWithPopup(auth, googleProvider)
       const user = await getUserFromFirebase(userCredential)
-      console.log('🚀 ~ user', user)
 
       if (!user) {
         throw new Error('User not found')
@@ -40,11 +39,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setCookie(null, 'userToken', user.token, {
         maxAge: 7 * 24 * 60 * 60
       })
-
-      const cookies = parseCookies()
-      console.log(cookies)
-
-      console.log('🚀 ~ auth', auth)
 
       router.push('/')
       toast.success(`Welcome ${user.name}!`, {
@@ -66,7 +60,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     destroyCookie(null, 'userToken')
     const cookies = parseCookies()
-    console.log(cookies)
 
     setUser(null)
 

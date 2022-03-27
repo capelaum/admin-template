@@ -3,7 +3,6 @@ import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(req: NextRequest, event: NextFetchEvent) {
   const { userToken } = req.cookies
-  // console.log('🚀 ~ userToken', userToken)
 
   const url = req.nextUrl.clone()
   const decodedToken: DecodedIdToken = await fetch(
@@ -16,8 +15,6 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
       body: JSON.stringify({ userToken })
     }
   ).then((res) => res.json())
-
-  console.log('🚀 ~ decodedToken', decodedToken)
 
   if (url.pathname !== '/login' && decodedToken.error) {
     url.pathname = '/login'

@@ -13,7 +13,6 @@ export default async function handler(
 
   try {
     const decodedToken = await adminAuth.verifyIdToken(userToken)
-    console.log('🚀 ~ decodedToken', decodedToken)
     return res.status(200).json(decodedToken)
   } catch (error) {
     return res.status(401).json({ error })
