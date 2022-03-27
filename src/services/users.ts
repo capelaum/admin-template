@@ -22,6 +22,28 @@ export async function getUserFromFirebase(
   }
 }
 
+export function getUserFromDecodedToken(
+  decodedToken: DecodedIdToken,
+  userToken: string
+): User {
+  const {
+    uid,
+    name,
+    email,
+    picture: photoURL,
+    firebase: { sign_in_provider: provider }
+  } = decodedToken
+
+  return {
+    uid,
+    email,
+    name,
+    photoURL,
+    token: userToken,
+    provider
+  }
+}
+
 export async function getDecodedToken(
   userToken: string
 ): Promise<DecodedIdToken | null> {

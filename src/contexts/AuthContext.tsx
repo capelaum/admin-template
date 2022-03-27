@@ -13,7 +13,11 @@ import {
 } from 'react'
 import { toast } from 'react-toastify'
 import { auth } from 'services/firebase'
-import { getDecodedToken, getUserFromFirebase } from 'services/users'
+import {
+  getDecodedToken,
+  getUserFromDecodedToken,
+  getUserFromFirebase
+} from 'services/users'
 import { showToastError } from 'utils/toasts'
 
 interface AuthProviderProps {
@@ -42,22 +46,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (!decodedToken) return
 
     if (decodedToken) {
-      const {
-        uid,
-        name,
-        email,
-        picture: photoURL,
-        firebase: { sign_in_provider: provider }
-      } = decodedToken
+      const userFromDecodedToken = getUserFromDecodedToken(
+        decodedToken,
+        userToken
+      )
 
-      setUser({
-        uid,
-        name,
-        email,
-        token: userToken,
-        photoURL,
-        provider
-      })
+      setUser(userFromDecodedToken)
     }
   }, [])
 
@@ -83,6 +77,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       router.push('/')
       toast.success(`Welcome ${user.name}!`, {
+        position: 'bottom-right',
         theme: 'colored'
       })
     } catch (err) {
@@ -93,8 +88,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function signOutWithGoogle() {
     if (user) {
-      toast(`Goodbye ${user.name}!`, {
-        theme: 'colored',
+      toast(`Bye ${user.name}!`, {
+        theme: 'light',
         icon: '👋'
       })
     }
