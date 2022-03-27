@@ -57,10 +57,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOutWithGoogle() {
-    toast(`Goodbye ${user?.name}!`, {
-      theme: 'colored',
-      icon: '👋'
-    })
+    if (user) {
+      toast(`Goodbye ${user.name}!`, {
+        theme: 'colored',
+        icon: '👋'
+      })
+    }
 
     destroyCookie(null, 'userToken')
     const cookies = parseCookies()

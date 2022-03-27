@@ -6,28 +6,25 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
   // console.log('🚀 ~ userToken', userToken)
 
   const url = req.nextUrl.clone()
-
-  if (url.pathname !== '/login') {
-    const decodedToken: DecodedIdToken = await fetch(
-      'http://localhost:3000/api/verifyIdToken',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ userToken })
-      }
-    ).then((res) => res.json())
-
-    console.log('🚀 ~ decodedToken', decodedToken)
-
-    if (decodedToken.error) {
-      url.pathname = '/login'
-      return NextResponse.redirect(url)
+  const decodedToken: DecodedIdToken = await fetch(
+    'http://localhost:3000/api/verifyIdToken',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userToken })
     }
+  ).then((res) => res.json())
+
+  console.log('🚀 ~ decodedToken', decodedToken)
+
+  if (url.pathname !== '/login' && decodedToken.error) {
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
   }
 
-  if (url.pathname === '/login' && userToken) {
+  if (url.pathname === '/login' && !decodedToken.error) {
     url.pathname = '/'
     return NextResponse.redirect(url)
   }

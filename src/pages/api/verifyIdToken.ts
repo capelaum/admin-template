@@ -7,7 +7,6 @@ export default async function handler(
   res: NextApiResponse
 ): Promise<DecodedIdToken | void> {
   const { userToken } = req.body
-  console.log('🚀 ~ API ROUTE userToken', userToken)
 
   if (!userToken)
     return res.status(401).json({ error: 'No user token id found' })
