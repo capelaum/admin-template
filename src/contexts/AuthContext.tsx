@@ -35,29 +35,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const setUserByCookies = useCallback(async () => {
     const { userToken } = parseCookies()
 
-    if (!userToken) router.push('/login')
+    if (!userToken) return
 
     const decodedToken: DecodedIdToken | null = await getDecodedToken(userToken)
 
-    console.log('🚀 ~ decodedToken', decodedToken)
-
-    if (!decodedToken) {
-      router.push('/login')
-    }
+    if (!decodedToken) return
 
     if (decodedToken) {
-      const { uid, name, email, picture, sign_in_provider } = decodedToken
+      const {
+        uid,
+        name,
+        email,
+        picture: photoURL,
+        firebase: { sign_in_provider: provider }
+      } = decodedToken
 
       setUser({
         uid,
         name,
         email,
         token: userToken,
-        photoURL: picture,
-        provider: sign_in_provider
+        photoURL,
+        provider
       })
     }
-  }, [router])
+  }, [])
 
   useEffect(() => {
     setUserByCookies()
