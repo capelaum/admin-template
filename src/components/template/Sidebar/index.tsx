@@ -32,6 +32,7 @@ export function Sidebar() {
       </ul>
       <ul className="">
         <Item
+          url="/login"
           text="Sair"
           icon={IconLogout}
           onClick={signOutWithGoogle}

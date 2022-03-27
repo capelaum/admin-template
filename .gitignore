@@ -36,3 +36,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Firebase Admin
+admin-cod3r-firebase-adminsdk-qbkyo-6cfeaf6ed7.json

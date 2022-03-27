@@ -1,10 +1,12 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { User } from 'models/User'
 import { useRouter } from 'next/router'
+import { destroyCookie, parseCookies, setCookie } from 'nookies'
 import { createContext, ReactNode, useContext, useState } from 'react'
-import { firebaseApp } from 'services/firebase'
+import { toast } from 'react-toastify'
+import { auth } from 'services/firebase'
 import { getUserFromFirebase } from 'services/users'
-import { showToast, showToastError } from 'utils/toasts'
+import { showToastError } from 'utils/toasts'
 
 interface AuthProviderProps {
   children: ReactNode
@@ -22,11 +24,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
 
-  const googleProvider = new GoogleAuthProvider()
-  const auth = getAuth(firebaseApp)
-
   async function sigInWithGoogle() {
     try {
+      const googleProvider = new GoogleAuthProvider()
       const userCredential = await signInWithPopup(auth, googleProvider)
       const user = await getUserFromFirebase(userCredential)
       console.log('🚀 ~ user', user)
@@ -36,8 +36,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       setUser(user)
+
+      setCookie(null, 'userToken', user.token, {
+        maxAge: 7 * 24 * 60 * 60
+      })
+
+      const cookies = parseCookies()
+      console.log(cookies)
+
+      console.log('🚀 ~ auth', auth)
+
       router.push('/')
-      showToast(`Welcome ${user.name}!`, 'top-right', '✅')
+      toast.success(`Welcome ${user.name}!`, {
+        theme: 'colored'
+      })
     } catch (err) {
       console.error(err)
       showToastError('Oops! Something went wrong.')
@@ -45,12 +57,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOutWithGoogle() {
-    if (user) {
-      const { name } = user
-      showToast(`Bye ${name}`, 'top-right', '👋')
-    }
+    toast(`Goodbye ${user?.name}!`, {
+      theme: 'colored',
+      icon: '👋'
+    })
+
+    destroyCookie(null, 'userToken')
+    const cookies = parseCookies()
+    console.log(cookies)
+
     setUser(null)
+
     await auth.signOut()
+
     router.push('/login')
   }
 

@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 interface SidebarItemProps {
   text: string
   icon: ReactNode
-  url?: string
+  url: string
   onClick?: (e: any) => void
   className?: string
 }
@@ -25,7 +25,7 @@ export function Item({
       `}
       onClick={onClick}
     >
-      <Link href={url ?? '#'} passHref>
+      <Link href={url} passHref>
         <a
           className={`flex flex-col justify-center items-center h-20 w-20 ${className} transition-all duration-250`}
         >
