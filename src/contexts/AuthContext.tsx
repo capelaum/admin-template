@@ -18,7 +18,6 @@ import {
   getUserFromDecodedToken,
   getUserFromFirebase
 } from 'services/users'
-import { showToastError } from 'utils/toasts'
 
 interface AuthProviderProps {
   children: ReactNode
@@ -28,16 +27,19 @@ interface AuthContextData {
   user: User | null
   sigInWithGoogle: () => Promise<void>
   signOutWithGoogle: () => Promise<void>
+  authLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const [authLoading, setAuthLoading] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
 
   const setUserByCookies = useCallback(async () => {
     const { userToken } = parseCookies()
+    setAuthLoading(true)
 
     if (!userToken) return
 
@@ -53,6 +55,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       setUser(userFromDecodedToken)
     }
+    setAuthLoading(false)
   }, [])
 
   useEffect(() => {
@@ -82,7 +85,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       })
     } catch (err) {
       console.error(err)
-      showToastError('Oops! Something went wrong.')
+      toast.error('Oops! Something went wrong.')
     }
   }
 
@@ -104,7 +107,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, sigInWithGoogle, signOutWithGoogle }}>
+    <AuthContext.Provider
+      value={{ user, sigInWithGoogle, signOutWithGoogle, authLoading }}
+    >
       {children}
     </AuthContext.Provider>
   )

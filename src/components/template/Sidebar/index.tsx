@@ -14,8 +14,8 @@ export function Sidebar() {
 
   return (
     <aside
-      className="flex flex-col
-
+      className="
+        flex flex-col
       bg-gray-200 text-gray-700
       dark:bg-gray-900
       "

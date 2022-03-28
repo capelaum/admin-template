@@ -4,8 +4,8 @@ import { getDecodedToken } from 'services/users'
 
 export async function middleware(req: NextRequest, event: NextFetchEvent) {
   const { userToken } = req.cookies
-
   const url = req.nextUrl.clone()
+
   const decodedToken: DecodedIdToken | null = await getDecodedToken(userToken)
 
   if (url.pathname !== '/login' && !decodedToken) {
