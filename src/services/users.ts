@@ -47,8 +47,13 @@ export function getUserFromDecodedToken(
 export async function getDecodedToken(
   userToken: string
 ): Promise<DecodedIdToken | null> {
+  const baseUrl =
+    process.env.ENV === 'production'
+      ? process.env.NEXT_PUBLIC_BASE_URL_PROD
+      : process.env.NEXT_PUBLIC_BASE_URL_DEV
+
   const decodedToken: DecodedIdToken = await fetch(
-    'http://localhost:3000/api/verifyIdToken',
+    `${baseUrl}/api/verifyIdToken`,
     {
       method: 'POST',
       headers: {
