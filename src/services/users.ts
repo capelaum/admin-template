@@ -5,10 +5,10 @@ import { User } from 'models/User'
 export async function getUserFromUserCredential(
   userCredential: UserCredential
 ): Promise<User | undefined> {
-  const { user, providerId: provider } = userCredential
+  const { user } = userCredential
   const token = await user.getIdToken()
 
-  const { uid, displayName: name, email, photoURL } = user
+  const { uid, displayName: name, email, photoURL, providerId: provider } = user
 
   if (!token) return
 

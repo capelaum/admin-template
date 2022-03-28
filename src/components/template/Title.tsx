@@ -9,8 +9,7 @@ export function Title({ title, subtitle }: TitleProps) {
       <h1
         className="
         font-black text-xl sm:text-3xl
-        text-gray-900
-        dark:text-gray-100
+        text-indigo-700
         "
       >
         {title}

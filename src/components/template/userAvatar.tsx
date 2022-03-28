@@ -16,9 +16,8 @@ export function UserAvatar() {
         rounded-full cursor-pointer
         relative overflow-hidden
         drop-shadow-md
-        border-2
-        border-gray-400
-        dark:border-gray-200
+        border-2 border-gray-400 dark:border-gray-200
+        hover:border-indigo-700 hover:dark:border-indigo-700
       "
       >
         <Image src={photoURL} alt="User Avatar" layout="fill" />

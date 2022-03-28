@@ -18,8 +18,8 @@ export function Input({
   required
 }: InputProps) {
   return (
-    <div className="flex flex-col">
-      <label htmlFor={name} className="pl-1 text-indigo-700 font-semibold">
+    <div className="flex flex-col flex-grow">
+      <label htmlFor={name} className="pl-1 pb-1 text-indigo-700 font-semibold">
         {label}
       </label>
       <input
@@ -30,10 +30,12 @@ export function Input({
         placeholder={placeholder}
         required={required}
         className="
-          px-4 py-3 rounded-lg
+          px-2 py-2 rounded-lg
+          text-sm sm:text-md
           bg-gray-200 text-gray-700
-          text-sm sm:text-lg
-          focus:border-indigo-400 focus:outline-none focus:bg-white
+          dark:bg-gray-700 dark:text-gray-300
+          focus:outline-none focus:bg-white
+          dark:focus:outline-none dark:focus:bg-gray-600
         "
       />
     </div>
