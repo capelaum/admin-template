@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { toast, ToastPosition } from 'react-toastify'
+import { Theme, toast, ToastPosition } from 'react-toastify'
 
 export const showToast = (
   message: string,
@@ -14,10 +14,28 @@ export const showToast = (
   })
 }
 
-export const showToastError = (message: string, icon?: ReactNode) => {
+export const showToastSuccess = (
+  message: string,
+  theme: Theme | undefined = 'colored',
+  position: ToastPosition = 'bottom-right',
+  icon?: ReactNode
+) => {
+  toast.success(message, {
+    position,
+    theme,
+    icon
+  })
+}
+
+export const showToastError = (
+  message: string,
+  theme: Theme | undefined = 'colored',
+  position: ToastPosition = 'top-right',
+  icon?: ReactNode
+) => {
   toast.error(message, {
-    position: 'top-right',
-    theme: 'colored',
+    position,
+    theme,
     icon
   })
 }

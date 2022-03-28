@@ -10,7 +10,7 @@ import { Item } from './Item'
 import { Logo } from './Logo'
 
 export function Sidebar() {
-  const { signOutWithGoogle } = useAuth()
+  const { signOut } = useAuth()
 
   return (
     <aside
@@ -35,7 +35,7 @@ export function Sidebar() {
           url="/login"
           text="Sair"
           icon={IconLogout}
-          onClick={signOutWithGoogle}
+          onClick={signOut}
           className="
           text-red-600 hover:bg-red-500 hover:text-white
           dark:text-red-500 dark:hover:bg-red-500 dark:hover:text-white

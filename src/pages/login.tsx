@@ -10,15 +10,15 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const { sigInWithGoogle } = useAuth()
+  const { sigInWithGoogle, signIn, register } = useAuth()
 
-  function submit() {
+  async function submit() {
     if (mode === 'login') {
-      console.log('login')
+      await signIn(email, password)
     }
 
     if (mode === 'register') {
-      console.log('register')
+      register(email, password)
     }
   }
 

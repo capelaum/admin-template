@@ -2,7 +2,7 @@ import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { UserCredential } from 'firebase/auth'
 import { User } from 'models/User'
 
-export async function getUserFromFirebase(
+export async function getUserFromUserCredential(
   userCredential: UserCredential
 ): Promise<User | undefined> {
   const { user, providerId: provider } = userCredential
