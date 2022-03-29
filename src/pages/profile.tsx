@@ -15,9 +15,9 @@ export default function Profile() {
   const [email, setEmail] = useState(user?.email ?? '')
   const [name, setName] = useState(user?.name ?? '')
 
-  const [imageSrc, setImageSrc] = useState<string>()
-
-  const photoURL = user?.photoURL ?? images.avatarDefault
+  const [imageSrc, setImageSrc] = useState<string | StaticImageData>(
+    user?.photoURL ?? images.avatarDefault
+  )
 
   const labelRef = useRef(null)
   const isHoveringLabel = useHover(labelRef)
@@ -26,6 +26,7 @@ export default function Profile() {
     if (user) {
       setEmail(user.email ?? '')
       setName(user.name ?? '')
+      setImageSrc(user.photoURL ?? images.avatarDefault)
     }
   }, [user])
 
@@ -92,22 +93,35 @@ export default function Profile() {
 
     if (name !== user?.name) {
       updatedUser.displayName = name
+
+      if (user) {
+        setUser({
+          ...user,
+          name: updatedUser.displayName
+        })
+      }
     }
 
-    const uploadAvatarFormData = setUploadAvatarImageFormData(
-      event.currentTarget
-    )
+    if (imageSrc !== user?.photoURL) {
+      const uploadAvatarFormData = setUploadAvatarImageFormData(
+        event.currentTarget
+      )
 
-    const data = await uploadAvatarImage(uploadAvatarFormData)
+      const data = await uploadAvatarImage(uploadAvatarFormData)
 
-    if (data) {
-      setImageSrc(data.secure_url)
-      updatedUser.photoURL = data.secure_url
+      if (data) {
+        updatedUser.photoURL = data.secure_url
+      }
+
+      if (user) {
+        setUser({
+          ...user,
+          photoURL: updatedUser.photoURL
+        })
+      }
     }
 
     await updateUserProfile(updatedUser)
-
-    if (user) setUser({ ...user, ...updatedUser })
   }
 
   return (
@@ -182,7 +196,7 @@ export default function Profile() {
                 Change profile picture
               </div>
               <Image
-                src={imageSrc ?? photoURL}
+                src={imageSrc}
                 alt="User Avatar"
                 layout="fill"
                 objectFit="cover"
