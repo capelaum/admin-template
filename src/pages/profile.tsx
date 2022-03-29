@@ -1,13 +1,12 @@
 import { images } from 'components/Assets/images'
+import { AvatarInputUpdate } from 'components/Profile/AvatarInputUpdate'
 import { Input } from 'components/Profile/Input'
 import { Layout } from 'components/template/Layout'
 import { useAuth } from 'contexts/AuthContext'
 import { UserProfile } from 'models/User'
 import Head from 'next/head'
-import Image from 'next/image'
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { updateUserProfile } from 'services/users'
-import { useHover } from 'usehooks-ts'
 import { showToastError } from 'utils/toasts'
 
 export default function Profile() {
@@ -19,9 +18,6 @@ export default function Profile() {
     user?.photoURL ?? images.avatarDefault
   )
 
-  const labelRef = useRef(null)
-  const isHoveringLabel = useHover(labelRef)
-
   useEffect(() => {
     if (user) {
       setEmail(user.email ?? '')
@@ -31,7 +27,6 @@ export default function Profile() {
   }, [user])
 
   function handleOnChangeAvatar(avatarInput: HTMLInputElement) {
-    console.log('🚀 ~ avatarInput', avatarInput)
     const reader = new FileReader()
 
     reader.onload = (onLoadEvent) => {
@@ -161,47 +156,10 @@ export default function Profile() {
               mt-12
             "
           >
-            <input
-              type="file"
-              name="avatar"
-              id="avatar"
-              className="hidden"
-              onChange={(e) => handleOnChangeAvatar(e.target)}
+            <AvatarInputUpdate
+              imageSrc={imageSrc}
+              handleOnChangeAvatar={handleOnChangeAvatar}
             />
-            <label
-              ref={labelRef}
-              htmlFor="avatar"
-              className="
-                cursor-pointer
-                relative w-32 h-32 sm:h-48 sm:w-48
-                rounded-full
-                overflow-hidden
-                drop-shadow-md
-                border-2 border-gray-400 dark:border-gray-200
-              hover:border-indigo-700 hover:dark:border-indigo-700
-              "
-              title="Change profile picture"
-            >
-              <div
-                className={`
-                  absolute top-0 right-0 bottom-0 left-0
-                  bg-indigo-700 bg-opacity-70
-                  z-10
-                  flex items-center justify-center
-                  text-xs text-center text-white
-                  transition-all duration-300
-                  ${isHoveringLabel ? 'block' : 'hidden'}
-                `}
-              >
-                Change profile picture
-              </div>
-              <Image
-                src={imageSrc}
-                alt="User Avatar"
-                layout="fill"
-                objectFit="cover"
-              />
-            </label>
 
             <button
               className="
