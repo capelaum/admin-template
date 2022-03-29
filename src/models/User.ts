@@ -6,3 +6,8 @@ export interface User {
   provider: string | null | undefined
   photoURL: string | null | undefined
 }
+
+export type UserProfile = {
+  displayName?: string
+  photoURL?: string
+}

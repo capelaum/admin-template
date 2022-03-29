@@ -50,15 +50,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null)
   const router = useRouter()
 
-  const setUserByCookies = useCallback(async () => {
+  const setUserByCookies = useCallback(async (): Promise<void | null> => {
     const { userToken } = parseCookies()
     // setAuthLoading(true)
 
-    if (!userToken) return
+    if (!userToken) return null
 
     const decodedToken: DecodedIdToken | null = await getDecodedToken(userToken)
 
-    if (!decodedToken) return
+    if (!decodedToken) return null
 
     if (decodedToken) {
       const userFromDecodedToken = getUserFromDecodedToken(

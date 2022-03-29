@@ -1,7 +1,7 @@
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import { FirebaseError } from 'firebase/app'
 import { updateEmail, updateProfile, UserCredential } from 'firebase/auth'
-import { User } from 'models/User'
+import { User, UserProfile } from 'models/User'
 import { showToastError, showToastSuccess } from 'utils/toasts'
 import { auth } from './firebase'
 
@@ -50,6 +50,8 @@ export function getUserFromDecodedToken(
 export async function getDecodedToken(
   userToken: string
 ): Promise<DecodedIdToken | null> {
+  if (!userToken) return null
+
   try {
     const baseUrl =
       process.env.ENV === 'production'
@@ -71,7 +73,7 @@ export async function getDecodedToken(
 
     return decodedToken
   } catch (error) {
-    console.error(error)
+    console.error('getDecodedToken CATCH ERROR', error)
     return null
   }
 }
@@ -104,14 +106,12 @@ export function showFirebaseError(error: unknown) {
   }
 }
 
-export async function updateUserName(updatedName: string) {
+export async function updateUserProfile(user: UserProfile) {
   try {
     if (auth.currentUser) {
-      await updateProfile(auth.currentUser, {
-        displayName: updatedName
-      })
+      await updateProfile(auth.currentUser, user)
 
-      showToastSuccess('Profile updated')
+      showToastSuccess('Profile updated successfully')
     }
   } catch (error) {
     showFirebaseError(error)

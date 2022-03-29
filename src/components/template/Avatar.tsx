@@ -3,7 +3,7 @@ import { useAuth } from 'contexts/AuthContext'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function UserAvatar() {
+export function Avatar() {
   const { user } = useAuth()
 
   const photoURL = user?.photoURL ?? images.avatarDefault
