@@ -3,7 +3,7 @@ import { Input } from 'components/template/Input'
 import { Layout } from 'components/template/Layout'
 import { useAuth } from 'contexts/AuthContext'
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useHover } from 'usehooks-ts'
 
 export default function Profile() {
@@ -15,6 +15,13 @@ export default function Profile() {
 
   const labelRef = useRef(null)
   const isHoveringLabel = useHover(labelRef)
+
+  useEffect(() => {
+    if (user) {
+      setEmail(user.email ?? '')
+      setName(user.name ?? '')
+    }
+  }, [user])
 
   return (
     <Layout title="Profile" subtitle="Manage your profile info">
