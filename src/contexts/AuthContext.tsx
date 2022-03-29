@@ -19,7 +19,6 @@ import {
   useEffect,
   useState
 } from 'react'
-import { toast } from 'react-toastify'
 import { auth } from 'services/firebase'
 import {
   getDecodedToken,
@@ -27,7 +26,7 @@ import {
   getUserFromUserCredential,
   showFirebaseError
 } from 'services/users'
-import { showToastSuccess } from 'utils/toasts'
+import { showToast, showToastSuccess } from 'utils/toasts'
 
 interface AuthProviderProps {
   children: ReactNode
@@ -80,9 +79,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   async function setUserFromUserCredential(userCredential: UserCredential) {
     const user = await getUserFromUserCredential(userCredential)
 
-    if (!user) {
-      throw new Error('User not found')
-    }
+    if (!user) throw new Error('User not found')
 
     setUser(user)
 
@@ -122,7 +119,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       router.push('/')
 
-      const toastMessage = `${user.name}, your account has been created successfully!`
+      const toastMessage = user.name
+        ? `${user.name}, your account has been created successfully!`
+        : 'Your account has been created successfully!'
+
       showToastSuccess(toastMessage)
     } catch (error) {
       showFirebaseError(error)
@@ -143,17 +143,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
-    if (user) {
-      toast(`Bye ${user.name}!`, {
-        theme: 'light',
-        icon: '👋'
-      })
-    }
-
     destroyCookie(null, 'userToken')
     setUser(null)
     await auth.signOut()
     router.push('/login')
+    showToast(`Bye ${user?.name ?? ''}!`)
   }
 
   return (

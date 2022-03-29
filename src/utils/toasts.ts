@@ -3,7 +3,7 @@ import { Theme, toast, ToastPosition } from 'react-toastify'
 
 export const showToast = (
   message: string,
-  theme: 'colored',
+  theme: Theme | undefined = 'colored',
   position: ToastPosition = 'top-right',
   icon?: ReactNode
 ) => {

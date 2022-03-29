@@ -8,6 +8,8 @@ export async function middleware(req: NextRequest, event: NextFetchEvent) {
 
   const decodedToken: DecodedIdToken | null = await getDecodedToken(userToken)
 
+  if (!decodedToken) return NextResponse.next()
+
   if (url.pathname !== '/login' && !decodedToken) {
     url.pathname = '/login'
     return NextResponse.redirect(url)

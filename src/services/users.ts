@@ -50,27 +50,30 @@ export function getUserFromDecodedToken(
 export async function getDecodedToken(
   userToken: string
 ): Promise<DecodedIdToken | null> {
-  const baseUrl =
-    process.env.ENV === 'production'
-      ? process.env.NEXT_PUBLIC_BASE_URL_PROD
-      : process.env.NEXT_PUBLIC_BASE_URL_DEV
+  try {
+    const baseUrl =
+      process.env.ENV === 'production'
+        ? process.env.NEXT_PUBLIC_BASE_URL_PROD
+        : process.env.NEXT_PUBLIC_BASE_URL_DEV
 
-  const decodedToken: DecodedIdToken = await fetch(
-    `${baseUrl}/api/verifyIdToken`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ userToken })
-    }
-  ).then((res) => res.json())
+    const decodedToken: DecodedIdToken = await fetch(
+      `${baseUrl}/api/verifyIdToken`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userToken })
+      }
+    ).then((res) => res.json())
 
-  if (decodedToken.error) {
+    if (decodedToken.error) return null
+
+    return decodedToken
+  } catch (error) {
+    console.error(error)
     return null
   }
-
-  return decodedToken
 }
 
 export function showFirebaseError(error: unknown) {
