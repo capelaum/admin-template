@@ -20,7 +20,7 @@ export function UserAvatar() {
         hover:border-indigo-700 hover:dark:border-indigo-700
       "
       >
-        <Image src={photoURL} alt="User Avatar" layout="fill" />
+        <Image src={photoURL} alt="User Avatar" layout="fill" title="Profile" />
       </div>
     </Link>
   )

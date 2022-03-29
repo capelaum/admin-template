@@ -122,10 +122,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password
       )
 
-      const user = await setUserFromUserCredential(userCredential)
+      await setUserFromUserCredential(userCredential)
 
       router.push('/')
-      showToastSuccess(`Welcome ${user.name}!`)
+      showToastSuccess(`Welcome!`)
     } catch (error) {
       showFirebaseError(error)
     }

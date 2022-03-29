@@ -19,7 +19,7 @@ export function Input({
 }: InputProps) {
   return (
     <div className="flex flex-col flex-grow">
-      <label htmlFor={name} className="pl-1 pb-1 text-indigo-700 font-semibold">
+      <label htmlFor={name} className="pb-1 text-indigo-700 font-semibold">
         {label}
       </label>
       <input
