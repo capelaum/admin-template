@@ -5,6 +5,7 @@ interface InputProps {
   value?: string
   placeholder?: string
   required?: boolean
+  disabled?: boolean
   onChange?: (newValue: string) => void
 }
 
@@ -15,7 +16,8 @@ export function Input({
   value,
   placeholder,
   onChange,
-  required
+  required,
+  disabled
 }: InputProps) {
   return (
     <div className="flex flex-col flex-grow">
@@ -29,6 +31,7 @@ export function Input({
         onChange={(e) => (onChange ? onChange(e.target.value) : {})}
         placeholder={placeholder}
         required={required}
+        disabled={disabled}
         className="
           px-2 py-2 rounded-lg
           text-sm sm:text-md

@@ -1,5 +1,4 @@
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
-import { FirebaseError } from 'firebase/app'
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -12,7 +11,9 @@ import { useRouter } from 'next/router'
 import { destroyCookie, parseCookies, setCookie } from 'nookies'
 import {
   createContext,
+  Dispatch,
   ReactNode,
+  SetStateAction,
   useCallback,
   useContext,
   useEffect,
@@ -23,9 +24,10 @@ import { auth } from 'services/firebase'
 import {
   getDecodedToken,
   getUserFromDecodedToken,
-  getUserFromUserCredential
+  getUserFromUserCredential,
+  showFirebaseError
 } from 'services/users'
-import { showToastError, showToastSuccess } from 'utils/toasts'
+import { showToastSuccess } from 'utils/toasts'
 
 interface AuthProviderProps {
   children: ReactNode
@@ -38,6 +40,8 @@ interface AuthContextData {
   signIn: (email: string, password: string) => Promise<void>
   register: (email: string, password: string) => Promise<void>
   authLoading: boolean
+  setUserByCookies: () => void
+  setUser: Dispatch<SetStateAction<User | null>>
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
@@ -49,7 +53,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const setUserByCookies = useCallback(async () => {
     const { userToken } = parseCookies()
-    setAuthLoading(true)
+    // setAuthLoading(true)
 
     if (!userToken) return
 
@@ -66,7 +70,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser(userFromDecodedToken)
     }
 
-    setAuthLoading(false)
+    // setAuthLoading(false)
   }, [])
 
   useEffect(() => {
@@ -87,31 +91,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     })
 
     return user
-  }
-
-  function showFirebaseError(error: unknown) {
-    // console.error('ERROR:', error)
-
-    if (error instanceof FirebaseError) {
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          showToastError('This email is already in use')
-          break
-        case 'auth/invalid-email':
-          showToastError('This email is invalid')
-          break
-        case 'auth/weak-password':
-          showToastError('This password is too weak')
-          break
-        case 'auth/wrong-password':
-          showToastError('Wrong password')
-          break
-        default:
-          showToastError(error.message)
-      }
-    } else {
-      showToastError('Something went wrong')
-    }
   }
 
   async function signIn(email: string, password: string) {
@@ -181,11 +160,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         signIn,
         register,
         sigInWithGoogle,
         signOut,
-        authLoading
+        authLoading,
+        setUserByCookies
       }}
     >
       {children}

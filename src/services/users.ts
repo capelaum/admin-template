@@ -1,6 +1,9 @@
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
-import { UserCredential } from 'firebase/auth'
+import { FirebaseError } from 'firebase/app'
+import { updateEmail, updateProfile, UserCredential } from 'firebase/auth'
 import { User } from 'models/User'
+import { showToastError, showToastSuccess } from 'utils/toasts'
+import { auth } from './firebase'
 
 export async function getUserFromUserCredential(
   userCredential: UserCredential
@@ -68,4 +71,58 @@ export async function getDecodedToken(
   }
 
   return decodedToken
+}
+
+export function showFirebaseError(error: unknown) {
+  // console.error('ERROR:', error)
+
+  if (error instanceof FirebaseError) {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        showToastError('This email is already in use')
+        break
+      case 'auth/invalid-email':
+        showToastError('This email is invalid')
+        break
+      case 'auth/weak-password':
+        showToastError('This password is too weak')
+        break
+      case 'auth/wrong-password':
+        showToastError('Wrong password')
+        break
+      case 'auth/requires-recent-login':
+        showToastError('You need to login again')
+        break
+      default:
+        showToastError(error.message)
+    }
+  } else {
+    showToastError('Something went wrong')
+  }
+}
+
+export async function updateUserName(updatedName: string) {
+  try {
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, {
+        displayName: updatedName
+      })
+
+      showToastSuccess('Profile updated')
+    }
+  } catch (error) {
+    showFirebaseError(error)
+  }
+}
+
+export async function updateUserEmail(updatedEmail: string) {
+  try {
+    if (auth.currentUser) {
+      await updateEmail(auth.currentUser, updatedEmail)
+
+      showToastSuccess('Email updated')
+    }
+  } catch (error) {
+    showFirebaseError(error)
+  }
 }

@@ -3,11 +3,13 @@ import { Input } from 'components/template/Input'
 import { Layout } from 'components/template/Layout'
 import { useAuth } from 'contexts/AuthContext'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
+import { updateUserName } from 'services/users'
 import { useHover } from 'usehooks-ts'
+import { showToastError } from 'utils/toasts'
 
 export default function Profile() {
-  const { user } = useAuth()
+  const { user, setUser } = useAuth()
   const [email, setEmail] = useState(user?.email ?? '')
   const [name, setName] = useState(user?.name ?? '')
 
@@ -23,9 +25,24 @@ export default function Profile() {
     }
   }, [user])
 
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    if (!name || name.trim() === '') {
+      showToastError('Name is required')
+      return
+    }
+
+    if (name !== user?.name) {
+      await updateUserName(name)
+
+      if (user) setUser({ ...user, name })
+    }
+  }
+
   return (
     <Layout title="Profile" subtitle="Manage your profile info">
-      <div className="flex flex-col">
+      <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
         <div className="flex flex-col md:flex-row gap-4 justify-between">
           <Input
             name="name"
@@ -45,6 +62,7 @@ export default function Profile() {
             placeholder="Email"
             onChange={setEmail}
             required
+            disabled
           />
         </div>
 
@@ -54,7 +72,7 @@ export default function Profile() {
             mt-12
           "
         >
-          <input type="file" name="uploadfile" id="img" className="hidden" />
+          <input type="file" name="avatar" id="avatar" className="hidden" />
           <label
             ref={labelRef}
             htmlFor="img"
@@ -89,8 +107,27 @@ export default function Profile() {
               objectFit="cover"
             />
           </label>
+
+          <button
+            className="
+              mt-10
+              flex items-center justify-center
+              bg-gradient-to-br hover:bg-gradient-to-bl
+              from-purple-600 to-blue-700 text-white
+              focus:ring-2 focus:outline-none focus:ring-blue-300
+              dark:focus:ring-blue-800
+              font-medium rounded-lg
+              mr-2 mb-4
+              px-5 py-2.5
+              text-sm sm:text-lg text-center
+              transition-all duration-300
+            "
+            type="submit"
+          >
+            Save
+          </button>
         </div>
-      </div>
+      </form>
     </Layout>
   )
 }
